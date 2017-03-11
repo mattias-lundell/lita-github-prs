@@ -1,0 +1,24 @@
+```
+## Merged PRs
+
+<% @rows.each do |row| %>
+<%= row %>
+
+<% end %>
+<% if @extra %>
+
+<%= File.read(@extra) %>
+<% end %>
+<% if !@prs.empty? %>
+
+## Inherited TODOs
+
+<% @prs.each do |pr| %>
+### <%= pr[:url] %> - <%= pr[:title] %>
+<% pr[:todos].each do |todo| %>
+<%= todo %>
+
+<% end %>
+<% end %>
+<% end %>
+```

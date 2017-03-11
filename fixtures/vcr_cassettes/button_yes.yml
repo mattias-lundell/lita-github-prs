@@ -1,0 +1,93 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.github.com/repos/mattias-lundell/trams/pulls
+    body:
+      encoding: UTF-8
+      string: '{"base":"master","head":"develop","title":"Go Live","body":"\n## Merged
+        PRs\n\n  * <https://api.github.com/repos/mattias-lundell/trams/pulls/2> -
+        Feature asd fasdf \n  * <https://api.github.com/repos/mattias-lundell/trams/pulls/3>
+        - Master\n  * <https://api.github.com/repos/mattias-lundell/trams/pulls/4>
+        - Feature2\n  * <https://api.github.com/repos/mattias-lundell/trams/pulls/11>
+        - Featurex\n\n## TODOs\n\n### Feature asd fasdf \n### Master\n### Feature2\n###
+        Featurex\n  - [ ] Fix a\n  - [ ] Fix b\n"}'
+    headers:
+      Accept:
+      - application/vnd.github.v3+json
+      User-Agent:
+      - Octokit Ruby Gem 4.6.2
+      Content-Type:
+      - application/json
+      Authorization:
+      - token FAKEGITHUBTOKEN
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Sat, 11 Mar 2017 23:24:06 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '15201'
+      Status:
+      - 201 Created
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4760'
+      X-Ratelimit-Reset:
+      - '1489274712'
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP
+      - Accept-Encoding
+      Etag:
+      - '"cb9fb404fdc5ff3c51e2a511946e12d8"'
+      X-Oauth-Scopes:
+      - repo
+      X-Accepted-Oauth-Scopes:
+      - ''
+      Location:
+      - https://api.github.com/repos/mattias-lundell/trams/pulls/29
+      X-Github-Media-Type:
+      - github.v3; format=json
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - 8dd185e423974a7e13abbbe6e060031e
+      X-Github-Request-Id:
+      - D26E:0712:7F42DE9:989491C:58C48715
+    body:
+      encoding: UTF-8
+      string: '{"url":"https://api.github.com/repos/mattias-lundell/trams/pulls/29","id":110278625,"html_url":"https://github.com/mattias-lundell/trams/pull/29","diff_url":"https://github.com/mattias-lundell/trams/pull/29.diff","patch_url":"https://github.com/mattias-lundell/trams/pull/29.patch","issue_url":"https://api.github.com/repos/mattias-lundell/trams/issues/29","number":29,"state":"open","locked":false,"title":"Go
+        Live","user":{"login":"mattias-lundell","id":1262441,"avatar_url":"https://avatars3.githubusercontent.com/u/1262441?v=3","gravatar_id":"","url":"https://api.github.com/users/mattias-lundell","html_url":"https://github.com/mattias-lundell","followers_url":"https://api.github.com/users/mattias-lundell/followers","following_url":"https://api.github.com/users/mattias-lundell/following{/other_user}","gists_url":"https://api.github.com/users/mattias-lundell/gists{/gist_id}","starred_url":"https://api.github.com/users/mattias-lundell/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/mattias-lundell/subscriptions","organizations_url":"https://api.github.com/users/mattias-lundell/orgs","repos_url":"https://api.github.com/users/mattias-lundell/repos","events_url":"https://api.github.com/users/mattias-lundell/events{/privacy}","received_events_url":"https://api.github.com/users/mattias-lundell/received_events","type":"User","site_admin":false},"body":"\n##
+        Merged PRs\n\n  * <https://api.github.com/repos/mattias-lundell/trams/pulls/2>
+        - Feature asd fasdf \n  * <https://api.github.com/repos/mattias-lundell/trams/pulls/3>
+        - Master\n  * <https://api.github.com/repos/mattias-lundell/trams/pulls/4>
+        - Feature2\n  * <https://api.github.com/repos/mattias-lundell/trams/pulls/11>
+        - Featurex\n\n## TODOs\n\n### Feature asd fasdf \n### Master\n### Feature2\n###
+        Featurex\n  - [ ] Fix a\n  - [ ] Fix b\n","created_at":"2017-03-11T23:24:05Z","updated_at":"2017-03-11T23:24:05Z","closed_at":null,"merged_at":null,"merge_commit_sha":null,"assignee":null,"assignees":[],"milestone":null,"commits_url":"https://api.github.com/repos/mattias-lundell/trams/pulls/29/commits","review_comments_url":"https://api.github.com/repos/mattias-lundell/trams/pulls/29/comments","review_comment_url":"https://api.github.com/repos/mattias-lundell/trams/pulls/comments{/number}","comments_url":"https://api.github.com/repos/mattias-lundell/trams/issues/29/comments","statuses_url":"https://api.github.com/repos/mattias-lundell/trams/statuses/933132ed902c95fe7468960d238931d1d79f00b5","head":{"label":"mattias-lundell:develop","ref":"develop","sha":"933132ed902c95fe7468960d238931d1d79f00b5","user":{"login":"mattias-lundell","id":1262441,"avatar_url":"https://avatars3.githubusercontent.com/u/1262441?v=3","gravatar_id":"","url":"https://api.github.com/users/mattias-lundell","html_url":"https://github.com/mattias-lundell","followers_url":"https://api.github.com/users/mattias-lundell/followers","following_url":"https://api.github.com/users/mattias-lundell/following{/other_user}","gists_url":"https://api.github.com/users/mattias-lundell/gists{/gist_id}","starred_url":"https://api.github.com/users/mattias-lundell/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/mattias-lundell/subscriptions","organizations_url":"https://api.github.com/users/mattias-lundell/orgs","repos_url":"https://api.github.com/users/mattias-lundell/repos","events_url":"https://api.github.com/users/mattias-lundell/events{/privacy}","received_events_url":"https://api.github.com/users/mattias-lundell/received_events","type":"User","site_admin":false},"repo":{"id":61818614,"name":"trams","full_name":"mattias-lundell/trams","owner":{"login":"mattias-lundell","id":1262441,"avatar_url":"https://avatars3.githubusercontent.com/u/1262441?v=3","gravatar_id":"","url":"https://api.github.com/users/mattias-lundell","html_url":"https://github.com/mattias-lundell","followers_url":"https://api.github.com/users/mattias-lundell/followers","following_url":"https://api.github.com/users/mattias-lundell/following{/other_user}","gists_url":"https://api.github.com/users/mattias-lundell/gists{/gist_id}","starred_url":"https://api.github.com/users/mattias-lundell/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/mattias-lundell/subscriptions","organizations_url":"https://api.github.com/users/mattias-lundell/orgs","repos_url":"https://api.github.com/users/mattias-lundell/repos","events_url":"https://api.github.com/users/mattias-lundell/events{/privacy}","received_events_url":"https://api.github.com/users/mattias-lundell/received_events","type":"User","site_admin":false},"private":true,"html_url":"https://github.com/mattias-lundell/trams","description":null,"fork":false,"url":"https://api.github.com/repos/mattias-lundell/trams","forks_url":"https://api.github.com/repos/mattias-lundell/trams/forks","keys_url":"https://api.github.com/repos/mattias-lundell/trams/keys{/key_id}","collaborators_url":"https://api.github.com/repos/mattias-lundell/trams/collaborators{/collaborator}","teams_url":"https://api.github.com/repos/mattias-lundell/trams/teams","hooks_url":"https://api.github.com/repos/mattias-lundell/trams/hooks","issue_events_url":"https://api.github.com/repos/mattias-lundell/trams/issues/events{/number}","events_url":"https://api.github.com/repos/mattias-lundell/trams/events","assignees_url":"https://api.github.com/repos/mattias-lundell/trams/assignees{/user}","branches_url":"https://api.github.com/repos/mattias-lundell/trams/branches{/branch}","tags_url":"https://api.github.com/repos/mattias-lundell/trams/tags","blobs_url":"https://api.github.com/repos/mattias-lundell/trams/git/blobs{/sha}","git_tags_url":"https://api.github.com/repos/mattias-lundell/trams/git/tags{/sha}","git_refs_url":"https://api.github.com/repos/mattias-lundell/trams/git/refs{/sha}","trees_url":"https://api.github.com/repos/mattias-lundell/trams/git/trees{/sha}","statuses_url":"https://api.github.com/repos/mattias-lundell/trams/statuses/{sha}","languages_url":"https://api.github.com/repos/mattias-lundell/trams/languages","stargazers_url":"https://api.github.com/repos/mattias-lundell/trams/stargazers","contributors_url":"https://api.github.com/repos/mattias-lundell/trams/contributors","subscribers_url":"https://api.github.com/repos/mattias-lundell/trams/subscribers","subscription_url":"https://api.github.com/repos/mattias-lundell/trams/subscription","commits_url":"https://api.github.com/repos/mattias-lundell/trams/commits{/sha}","git_commits_url":"https://api.github.com/repos/mattias-lundell/trams/git/commits{/sha}","comments_url":"https://api.github.com/repos/mattias-lundell/trams/comments{/number}","issue_comment_url":"https://api.github.com/repos/mattias-lundell/trams/issues/comments{/number}","contents_url":"https://api.github.com/repos/mattias-lundell/trams/contents/{+path}","compare_url":"https://api.github.com/repos/mattias-lundell/trams/compare/{base}...{head}","merges_url":"https://api.github.com/repos/mattias-lundell/trams/merges","archive_url":"https://api.github.com/repos/mattias-lundell/trams/{archive_format}{/ref}","downloads_url":"https://api.github.com/repos/mattias-lundell/trams/downloads","issues_url":"https://api.github.com/repos/mattias-lundell/trams/issues{/number}","pulls_url":"https://api.github.com/repos/mattias-lundell/trams/pulls{/number}","milestones_url":"https://api.github.com/repos/mattias-lundell/trams/milestones{/number}","notifications_url":"https://api.github.com/repos/mattias-lundell/trams/notifications{?since,all,participating}","labels_url":"https://api.github.com/repos/mattias-lundell/trams/labels{/name}","releases_url":"https://api.github.com/repos/mattias-lundell/trams/releases{/id}","deployments_url":"https://api.github.com/repos/mattias-lundell/trams/deployments","created_at":"2016-06-23T16:05:27Z","updated_at":"2016-06-23T16:05:27Z","pushed_at":"2017-03-11T23:17:15Z","git_url":"git://github.com/mattias-lundell/trams.git","ssh_url":"git@github.com:mattias-lundell/trams.git","clone_url":"https://github.com/mattias-lundell/trams.git","svn_url":"https://github.com/mattias-lundell/trams","homepage":null,"size":5,"stargazers_count":0,"watchers_count":0,"language":null,"has_issues":true,"has_downloads":true,"has_wiki":true,"has_pages":false,"forks_count":0,"mirror_url":null,"open_issues_count":1,"forks":0,"open_issues":1,"watchers":0,"default_branch":"develop"}},"base":{"label":"mattias-lundell:master","ref":"master","sha":"3281b934c45ac67e12803e14bb10e606ab79bc59","user":{"login":"mattias-lundell","id":1262441,"avatar_url":"https://avatars3.githubusercontent.com/u/1262441?v=3","gravatar_id":"","url":"https://api.github.com/users/mattias-lundell","html_url":"https://github.com/mattias-lundell","followers_url":"https://api.github.com/users/mattias-lundell/followers","following_url":"https://api.github.com/users/mattias-lundell/following{/other_user}","gists_url":"https://api.github.com/users/mattias-lundell/gists{/gist_id}","starred_url":"https://api.github.com/users/mattias-lundell/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/mattias-lundell/subscriptions","organizations_url":"https://api.github.com/users/mattias-lundell/orgs","repos_url":"https://api.github.com/users/mattias-lundell/repos","events_url":"https://api.github.com/users/mattias-lundell/events{/privacy}","received_events_url":"https://api.github.com/users/mattias-lundell/received_events","type":"User","site_admin":false},"repo":{"id":61818614,"name":"trams","full_name":"mattias-lundell/trams","owner":{"login":"mattias-lundell","id":1262441,"avatar_url":"https://avatars3.githubusercontent.com/u/1262441?v=3","gravatar_id":"","url":"https://api.github.com/users/mattias-lundell","html_url":"https://github.com/mattias-lundell","followers_url":"https://api.github.com/users/mattias-lundell/followers","following_url":"https://api.github.com/users/mattias-lundell/following{/other_user}","gists_url":"https://api.github.com/users/mattias-lundell/gists{/gist_id}","starred_url":"https://api.github.com/users/mattias-lundell/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/mattias-lundell/subscriptions","organizations_url":"https://api.github.com/users/mattias-lundell/orgs","repos_url":"https://api.github.com/users/mattias-lundell/repos","events_url":"https://api.github.com/users/mattias-lundell/events{/privacy}","received_events_url":"https://api.github.com/users/mattias-lundell/received_events","type":"User","site_admin":false},"private":true,"html_url":"https://github.com/mattias-lundell/trams","description":null,"fork":false,"url":"https://api.github.com/repos/mattias-lundell/trams","forks_url":"https://api.github.com/repos/mattias-lundell/trams/forks","keys_url":"https://api.github.com/repos/mattias-lundell/trams/keys{/key_id}","collaborators_url":"https://api.github.com/repos/mattias-lundell/trams/collaborators{/collaborator}","teams_url":"https://api.github.com/repos/mattias-lundell/trams/teams","hooks_url":"https://api.github.com/repos/mattias-lundell/trams/hooks","issue_events_url":"https://api.github.com/repos/mattias-lundell/trams/issues/events{/number}","events_url":"https://api.github.com/repos/mattias-lundell/trams/events","assignees_url":"https://api.github.com/repos/mattias-lundell/trams/assignees{/user}","branches_url":"https://api.github.com/repos/mattias-lundell/trams/branches{/branch}","tags_url":"https://api.github.com/repos/mattias-lundell/trams/tags","blobs_url":"https://api.github.com/repos/mattias-lundell/trams/git/blobs{/sha}","git_tags_url":"https://api.github.com/repos/mattias-lundell/trams/git/tags{/sha}","git_refs_url":"https://api.github.com/repos/mattias-lundell/trams/git/refs{/sha}","trees_url":"https://api.github.com/repos/mattias-lundell/trams/git/trees{/sha}","statuses_url":"https://api.github.com/repos/mattias-lundell/trams/statuses/{sha}","languages_url":"https://api.github.com/repos/mattias-lundell/trams/languages","stargazers_url":"https://api.github.com/repos/mattias-lundell/trams/stargazers","contributors_url":"https://api.github.com/repos/mattias-lundell/trams/contributors","subscribers_url":"https://api.github.com/repos/mattias-lundell/trams/subscribers","subscription_url":"https://api.github.com/repos/mattias-lundell/trams/subscription","commits_url":"https://api.github.com/repos/mattias-lundell/trams/commits{/sha}","git_commits_url":"https://api.github.com/repos/mattias-lundell/trams/git/commits{/sha}","comments_url":"https://api.github.com/repos/mattias-lundell/trams/comments{/number}","issue_comment_url":"https://api.github.com/repos/mattias-lundell/trams/issues/comments{/number}","contents_url":"https://api.github.com/repos/mattias-lundell/trams/contents/{+path}","compare_url":"https://api.github.com/repos/mattias-lundell/trams/compare/{base}...{head}","merges_url":"https://api.github.com/repos/mattias-lundell/trams/merges","archive_url":"https://api.github.com/repos/mattias-lundell/trams/{archive_format}{/ref}","downloads_url":"https://api.github.com/repos/mattias-lundell/trams/downloads","issues_url":"https://api.github.com/repos/mattias-lundell/trams/issues{/number}","pulls_url":"https://api.github.com/repos/mattias-lundell/trams/pulls{/number}","milestones_url":"https://api.github.com/repos/mattias-lundell/trams/milestones{/number}","notifications_url":"https://api.github.com/repos/mattias-lundell/trams/notifications{?since,all,participating}","labels_url":"https://api.github.com/repos/mattias-lundell/trams/labels{/name}","releases_url":"https://api.github.com/repos/mattias-lundell/trams/releases{/id}","deployments_url":"https://api.github.com/repos/mattias-lundell/trams/deployments","created_at":"2016-06-23T16:05:27Z","updated_at":"2016-06-23T16:05:27Z","pushed_at":"2017-03-11T23:17:15Z","git_url":"git://github.com/mattias-lundell/trams.git","ssh_url":"git@github.com:mattias-lundell/trams.git","clone_url":"https://github.com/mattias-lundell/trams.git","svn_url":"https://github.com/mattias-lundell/trams","homepage":null,"size":5,"stargazers_count":0,"watchers_count":0,"language":null,"has_issues":true,"has_downloads":true,"has_wiki":true,"has_pages":false,"forks_count":0,"mirror_url":null,"open_issues_count":1,"forks":0,"open_issues":1,"watchers":0,"default_branch":"develop"}},"_links":{"self":{"href":"https://api.github.com/repos/mattias-lundell/trams/pulls/29"},"html":{"href":"https://github.com/mattias-lundell/trams/pull/29"},"issue":{"href":"https://api.github.com/repos/mattias-lundell/trams/issues/29"},"comments":{"href":"https://api.github.com/repos/mattias-lundell/trams/issues/29/comments"},"review_comments":{"href":"https://api.github.com/repos/mattias-lundell/trams/pulls/29/comments"},"review_comment":{"href":"https://api.github.com/repos/mattias-lundell/trams/pulls/comments{/number}"},"commits":{"href":"https://api.github.com/repos/mattias-lundell/trams/pulls/29/commits"},"statuses":{"href":"https://api.github.com/repos/mattias-lundell/trams/statuses/933132ed902c95fe7468960d238931d1d79f00b5"}},"merged":false,"mergeable":null,"mergeable_state":"unknown","merged_by":null,"comments":0,"review_comments":0,"maintainer_can_modify":false,"commits":19,"additions":11,"deletions":0,"changed_files":1}'
+    http_version: 
+  recorded_at: Sat, 11 Mar 2017 23:24:06 GMT
+recorded_with: VCR 3.0.3
