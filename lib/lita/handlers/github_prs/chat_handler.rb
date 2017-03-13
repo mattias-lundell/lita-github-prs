@@ -21,7 +21,7 @@ module Lita
           repo = GitRepository.new(config.organization, response.args[0])
 
           if github.repository?(repo.long_name)
-            go_live response.message.source.user, repo
+            go_live response.room, repo
           else
             msg = "Invalid repository #{repo.long_nam}"
             log.info msg
@@ -29,7 +29,7 @@ module Lita
           end
         end
 
-        def go_live(request_source, repo)
+        def go_live(receiver, repo)
           log.info "request for go live #{repo.long_name}"
 
           diff = github.compare(repo.long_name, config.master_branch, config.develop_branch)
@@ -46,7 +46,7 @@ module Lita
           pretext = render_template('go-live-pr', rows: rows, prs: prs_with_todos, extra: additional_todos(repo))
 
           slack.send_attachments(
-            request_source,
+            receiver,
             construct_attachments(pretext, repo.long_name)
           )
         end
