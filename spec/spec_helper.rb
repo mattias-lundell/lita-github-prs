@@ -1,5 +1,6 @@
-require 'simplecov'
 require 'coveralls'
+Coveralls.wear!
+require 'simplecov'
 SimpleCov.start {
   add_group 'Lib', 'lib'
 
