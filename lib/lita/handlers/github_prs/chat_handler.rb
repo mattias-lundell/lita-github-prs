@@ -23,7 +23,7 @@ module Lita
           if github.repository?(repo.long_name)
             go_live response.room, repo
           else
-            msg = "Invalid repository #{repo.long_nam}"
+            msg = "Invalid repository #{repo.long_name}"
             log.info msg
             response.reply(msg)
           end
@@ -57,7 +57,7 @@ module Lita
         end
 
         def parse_todos(pr)
-          todos = pr.body.lines.select { |row| /^- \[[Xx ]\]/.match row.strip }
+          todos = pr.body.lines.select { |row| /^[-*] \[[Xx ]\]/.match row.strip }
           todos.map(&:strip).compact.reject(&:empty?).map { |row| row.gsub('- [x]', '- [ ]') }
         end
 
