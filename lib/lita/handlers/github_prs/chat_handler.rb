@@ -57,8 +57,9 @@ module Lita
         end
 
         def parse_todos(pr)
-          todos = pr.body.lines.select { |row| /^[-*] \[[Xx ]\]/.match row.strip }
-          todos.map(&:strip).compact.reject(&:empty?).map { |row| row.gsub('- [x]', '- [ ]') }
+          regex = /^[-*] \[[Xx ]\]/
+          todos = pr.body.to_s.lines.map(&:strip).grep(regex)
+          todos.reject(&:empty?).map { |row| row.gsub(regex, '- [ ]') }
         end
 
         def get_pr_details(repo, pr_id)

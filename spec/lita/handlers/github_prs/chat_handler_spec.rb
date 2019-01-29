@@ -31,4 +31,48 @@ describe Lita::Handlers::GithubPrs::ChatHandler, lita_handler: true, additional_
       end
     end
   end
+
+  describe '#parse_todos' do
+    let(:chat_handler) { Lita::Handlers::GithubPrs::ChatHandler.new(robot) }
+
+    let(:pr) { double(body: body) }
+    subject { chat_handler.parse_todos(pr) }
+
+    let_context body: "## TODO:\n - [ ] add env vars!" do
+      it { should eq ['- [ ] add env vars!'] }
+    end
+
+    let_context body: "## TODO:\n - [X] add env vars!" do
+      it { should eq ['- [ ] add env vars!'] }
+    end
+
+    let_context body: "## TODO:\n - [x] add env vars!" do
+      it { should eq ['- [ ] add env vars!'] }
+    end
+
+    let_context body: "## TODO:\n - [x] add env vars!   \t\n " do
+      it { should eq ['- [ ] add env vars!'] }
+    end
+
+
+    let_context body: "## TODO:\n * [ ] add env vars!" do
+      it { should eq ['- [ ] add env vars!'] }
+    end
+
+    let_context body: "## TODO:\n * [X] add env vars!" do
+      it { should eq ['- [ ] add env vars!'] }
+    end
+
+    let_context body: "## TODO:\n * [x] add env vars!" do
+      it { should eq ['- [ ] add env vars!'] }
+    end
+
+    let_context body: "## TODO:\n * [x] add env vars!  \t\n " do
+      it { should eq ['- [ ] add env vars!'] }
+    end
+
+    let_context(body: '') { it { should eq [] } }
+    let_context(body: "  \n \t  foo bar \n \n baz \t ") { it { should eq [] } }
+    let_context(body: nil) { it { should eq [] } }
+  end
 end
