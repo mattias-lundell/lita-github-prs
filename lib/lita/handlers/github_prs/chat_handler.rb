@@ -1,6 +1,8 @@
 require 'json'
 require 'octokit'
 
+require 'lita/handlers/github_prs/github.rb'
+
 module Lita
   module Handlers
     module GithubPrs
@@ -20,7 +22,7 @@ module Lita
           log.info "got request #{response.args}"
           repo = GitRepository.new(config.organization, response.args[0])
 
-          if github.repository?(repo.long_name)
+          if github.repository?(repo)
             go_live response.room, repo
           else
             msg = "Invalid repository #{repo.long_name}"
@@ -32,18 +34,15 @@ module Lita
         def go_live(receiver, repo)
           log.info "request for go live #{repo.long_name}"
 
-          diff = github.compare(repo.long_name, config.master_branch, config.develop_branch)
-          prs = diff.commits.map(&:commit).select { |i| i.message.start_with? 'Merge pull request' }
-          prs = prs.map do |pr|
-            match = pr.message.split(/^Merge pull request #(\d+).+\n\n(.+)/)
-            pr_id = match[1]
-            get_pr_details(repo, pr_id)
+          prs = github.prs_between(repo, config.master_branch, config.develop_branch)
+
+          todos_by_pr = prs.each_with_object({}) do |pr, result|
+            todos = parse_todos(pr)
+
+            result[pr] = todos unless todos.empty?
           end
 
-          rows = prs.map { |pr| "* #{pr[:url]} - #{pr[:title]}" }
-          prs_with_todos = prs.reject { |pr| pr[:todos].empty?  }
-
-          pretext = render_template('go-live-pr', rows: rows, prs: prs_with_todos, extra: additional_todos(repo))
+          pretext = render_template('go-live-pr', prs: prs, todos_by_pr: todos_by_pr, extra: additional_todos(repo))
 
           slack.send_attachments(
             receiver,
@@ -53,7 +52,7 @@ module Lita
 
         def additional_todos(repo)
           path = "#{config.extra_templates}/#{repo.short_name}"
-          return path if File.exist?(path)
+          return Fire.read(path) if File.exist?(path)
         end
 
         def parse_todos(pr)
@@ -62,21 +61,12 @@ module Lita
           todos.reject(&:empty?).map { |row| row.gsub(regex, '- [ ]') }
         end
 
-        def get_pr_details(repo, pr_id)
-          pr = github.pull_request(repo.long_name, pr_id)
-
-          { title: pr.title, url: repo.pr_url(pr_id), todos: parse_todos(pr) }
+        def slack
+          @slack ||= robot.chat_service
         end
 
         def github
-          @github ||= Octokit::Client.new(
-            access_token: config.github_token,
-            auto_paginate: true
-          )
-        end
-
-        def slack
-          @slack ||= robot.chat_service
+          @github ||= Github.new(config.github_token)
         end
 
         def construct_attachments(pretext, repository)

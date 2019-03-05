@@ -14,7 +14,6 @@ class MockSlack
 end
 
 describe Lita::Handlers::GithubPrs::ChatHandler, lita_handler: true, additional_lita_handlers: Lita::Handlers::GithubPrs::Config do
-
   context 'routes' do
     it { is_expected.to route_command('golive trams').to(:go_live_handler) }
   end

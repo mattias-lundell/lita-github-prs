@@ -1,24 +1,26 @@
 ```
 ## Merged PRs
 
-<% @rows.each do |row| %>
-<%= row %>
+<% @prs.group_by { |pr| pr.user.login }.each do |login, prs| %>
+### <%= login %>
+
+<% prs.each do |pr| %>
+* #<%= pr.number %> - <%= pr.title %>
+<% end %>
 
 <% end %>
-<% if @extra %>
 
-<%= File.read(@extra) %>
-<% end %>
-<% if !@prs.empty? %>
+<%= @extra %>
 
+<% if !@todos_by_pr.empty? %>
 ## Inherited TODOs
 
-<% @prs.each do |pr| %>
-### <%= pr[:url] %> - <%= pr[:title] %>
-<% pr[:todos].each do |todo| %>
+<% @todos_by_pr.each do |pr, todos| %>
+### #<%= pr.number %> - <%= pr.title %>
+<% todos.each do |todo| %>
 <%= todo %>
-
 <% end %>
+
 <% end %>
 <% end %>
 ```
