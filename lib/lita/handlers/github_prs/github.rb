@@ -21,6 +21,12 @@ module Lita
           end
         end
 
+        def user(id_or_login)
+          client.user(id_or_login)
+        rescue Octokit::NotFound
+          nil
+        end
+
         def client
           @client ||= Octokit::Client.new(
             access_token: @github_token,
@@ -30,7 +36,7 @@ module Lita
 
         class << self
           def mentions(text)
-            text.scan(/(?<=@)[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}(?![\w\-])/i)
+            text.scan(/(?<=[^\w]@)[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}(?![\w\-])/i)
           end
         end
       end

@@ -67,10 +67,19 @@ module Lita
             text
           )
 
-          mentions = Github.mentions(text)
+          mentions = Github.mentions(text).select do |login|
+            user = github.user(login)
+
+            user.type == 'User' if user
+          end - ['here']
+
           client.request_pull_request_review(repository, res.number, reviewers: mentions) unless mentions.empty?
 
           res.html_url
+        end
+
+        def github
+          @github ||= Github.new(config.github_token)
         end
 
         def client

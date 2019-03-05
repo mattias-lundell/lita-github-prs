@@ -27,6 +27,25 @@ module Lita
           end
         end
 
+        describe '#user' do
+          let(:login) { 'foobar' }
+
+          subject { github.user(login) }
+
+          context 'user object is returned' do
+            let(:user_response) { double }
+            before { allow(client_double).to receive(:user).with(login).and_return(user_response) }
+
+            it { should eq(user_response) }
+          end
+
+          context 'Octokit::NotFound raised' do
+            before { allow(client_double).to receive(:user).with(login).and_raise(Octokit::NotFound) }
+
+            it { should eq(nil) }
+          end
+        end
+
         describe '#prs_between' do
           let(:diff_response_commits) do
             found_commit_messages.map { |message| double(commit: double(message: message)) }
@@ -87,13 +106,15 @@ module Lita
 
         describe '.mentions' do
           subject { Github.mentions(text) }
-
           let_context(text: '') { it { should eq([]) } }
           let_context(text: "some text\nanother line") { it { should eq([]) } }
+
           let_context(text: "foo @bar baz") { it { should eq(['bar']) } }
           let_context(text: "foo @bar, @biz baz") { it { should eq(['bar', 'biz']) } }
           let_context(text: "foo @bar \n @biz and @boz baz") { it { should eq(['bar', 'biz', 'boz']) } }
           let_context(text: "foo @with-hyphens-and-num4 bar") { it { should eq(['with-hyphens-and-num4']) } }
+
+          let_context(text: "foo foo@gmail.com bar") { it { should eq([]) } }
 
           # Taking some examples from https://github.com/shinnn/github-username-regex
           let_context(text: "foo @a bar") { it { should eq(['a']) } }
