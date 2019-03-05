@@ -59,18 +59,22 @@ module Lita
 
         def create_pr(repository, text)
           text = text.gsub(/```/, '')
-          res = github.create_pull_request(
+          res = client.create_pull_request(
             repository,
             config.master_branch,
             config.develop_branch,
             'Go Live',
             text
           )
+
+          mentions = Github.mentions(text)
+          client.request_pull_request_review(repository, res.number, reviewers: mentions) unless mentions.empty?
+
           res.html_url
         end
 
-        def github
-          @github ||= Octokit::Client.new(
+        def client
+          @client ||= Octokit::Client.new(
             access_token: config.github_token,
             auto_paginate: true
           )

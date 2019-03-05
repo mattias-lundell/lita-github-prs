@@ -1,3 +1,4 @@
+require 'spec_helper'
 
 module Lita
   module Handlers
@@ -82,6 +83,32 @@ module Lita
 
             it { should eq([pr_1000, pr_1003, pr_1002]) }
           end
+        end
+
+        describe '.mentions' do
+          subject { Github.mentions(text) }
+
+          let_context(text: '') { it { should eq([]) } }
+          let_context(text: "some text\nanother line") { it { should eq([]) } }
+          let_context(text: "foo @bar baz") { it { should eq(['bar']) } }
+          let_context(text: "foo @bar, @biz baz") { it { should eq(['bar', 'biz']) } }
+          let_context(text: "foo @bar \n @biz and @boz baz") { it { should eq(['bar', 'biz', 'boz']) } }
+          let_context(text: "foo @with-hyphens-and-num4 bar") { it { should eq(['with-hyphens-and-num4']) } }
+
+          # Taking some examples from https://github.com/shinnn/github-username-regex
+          let_context(text: "foo @a bar") { it { should eq(['a']) } }
+          let_context(text: "foo @0 bar") { it { should eq(['0']) } }
+          let_context(text: "foo @a-b bar") { it { should eq(['a-b']) } }
+          let_context(text: "foo @a-b-123 bar") { it { should eq(['a-b-123']) } }
+          let_context(text: "foo @#{'a' * 39} bar") { it { should eq(['a' * 39]) } }
+
+          let_context(text: "foo @ bar") { it { should eq([]) } }
+          let_context(text: "foo @a_b bar") { it { should eq([]) } }
+          let_context(text: "foo @a--b bar") { it { should eq([]) } }
+          let_context(text: "foo @a-b- bar") { it { should eq([]) } }
+          let_context(text: "foo @-a-b bar") { it { should eq([]) } }
+          let_context(text: "foo @-a-b bar") { it { should eq([]) } }
+          let_context(text: "foo @#{'a' * 40} bar") { it { should eq([]) } }
         end
       end
     end
