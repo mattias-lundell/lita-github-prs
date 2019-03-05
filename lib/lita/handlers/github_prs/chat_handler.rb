@@ -52,7 +52,7 @@ module Lita
 
         def additional_todos(repo)
           path = "#{config.extra_templates}/#{repo.short_name}"
-          return Fire.read(path) if File.exist?(path)
+          return File.read(path) if File.exist?(path)
         end
 
         def parse_todos(pr)
