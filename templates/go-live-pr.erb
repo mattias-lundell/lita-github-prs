@@ -2,7 +2,7 @@
 ## Merged PRs
 
 <% @prs.group_by { |pr| pr.user.login }.each do |login, prs| %>
-### <%= login %>
+### @<%= login %>
 
 <% prs.each do |pr| %>
 * #<%= pr.number %> - <%= pr.title %>
