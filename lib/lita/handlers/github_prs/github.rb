@@ -27,6 +27,12 @@ module Lita
             auto_paginate: true
           )
         end
+
+        class << self
+          def mentions(text)
+            text.scan(/(?<=@)[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}(?![\w\-])/i)
+          end
+        end
       end
     end
   end
