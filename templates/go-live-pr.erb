@@ -5,7 +5,7 @@
 ### @<%= login %>
 
 <% prs.each do |pr| %>
-* #<%= pr.number %> - <%= pr.title %>
+* #<%= pr.number %> - <%= pr.title %><%= " (@#{pr.merged_by&.login} merged)" if pr.merged_by&.login != login %>
 <% end %>
 
 <% end %>
