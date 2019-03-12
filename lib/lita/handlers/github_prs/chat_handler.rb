@@ -51,8 +51,15 @@ module Lita
         end
 
         def additional_todos(repo)
-          path = "#{config.extra_templates}/#{repo.short_name}"
-          return File.read(path) if File.exist?(path)
+          classified_repo_name = classify_repo_name(repo.long_name)
+
+          if Module.const_defined?(classified_repo_name)
+            generator = Object.const_get(classified_repo_name).new(repo: repo)
+            generator.additional_todos_markdown
+          else
+            path = "#{config.extra_templates}/#{repo.short_name}"
+            File.read(path) if File.exist?(path)
+          end
         end
 
         def parse_todos(pr)
@@ -94,6 +101,22 @@ module Lita
               mrkdwn_in: %w(text pretext)
             }
           ]
+        end
+
+        private
+
+        def classify_repo_name(repo_name)
+          string = repo_name.
+            to_s.
+            sub(/.*\./, '').
+            sub(/([-])([a-z])/) { $2.capitalize }
+
+          camelize(string)
+        end
+
+        def camelize(string)
+          string = string.sub(/^[a-z\d]*/) { $&.capitalize }
+          string.gsub(/(?:_|(\/))([a-z\d]*)/) { "#{$1}#{$2.capitalize}" }.gsub('/', '::')
         end
       end
     end
