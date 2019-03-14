@@ -7,6 +7,7 @@ module Lita::Handlers::GithubPrs
     config :master_branch, type: String
     config :develop_branch, type: String
     config :extra_templates, type: String
+    config :repo_handlers, type: Hash, default: {}
   end
 end
 

@@ -2,6 +2,7 @@ require 'json'
 require 'octokit'
 
 require 'lita/handlers/github_prs/github.rb'
+require 'lita/handlers/github_prs/default_repo_handler.rb'
 
 module Lita
   module Handlers
@@ -42,7 +43,12 @@ module Lita
             result[pr] = todos unless todos.empty?
           end
 
-          pretext = render_template('go-live-pr', prs: prs, todos_by_pr: todos_by_pr, extra: additional_todos(repo))
+          pretext = render_template(
+            'go-live-pr',
+            prs: prs,
+            todos_by_pr: todos_by_pr,
+            extra: additional_todos(repo)
+          )
 
           slack.send_attachments(
             receiver,
@@ -51,14 +57,12 @@ module Lita
         end
 
         def additional_todos(repo)
-          classified_repo_name = classify_repo_name(repo.long_name)
+          repo_handler = config.repo_handlers[repo.long_name.to_sym]
 
-          if Module.const_defined?(classified_repo_name)
-            generator = Object.const_get(classified_repo_name).new(repo: repo)
-            generator.additional_todos_markdown
+          if repo_handler
+            repo_handler.new(repo).extra_todos
           else
-            path = "#{config.extra_templates}/#{repo.short_name}"
-            File.read(path) if File.exist?(path)
+            DefaultRepoHandler.new(repo: repo, config: config).extra_todos
           end
         end
 
@@ -101,22 +105,6 @@ module Lita
               mrkdwn_in: %w(text pretext)
             }
           ]
-        end
-
-        private
-
-        def classify_repo_name(repo_name)
-          string = repo_name.
-            to_s.
-            sub(/.*\./, '').
-            sub(/([-])([a-z])/) { $2.capitalize }
-
-          camelize(string)
-        end
-
-        def camelize(string)
-          string = string.sub(/^[a-z\d]*/) { $&.capitalize }
-          string.gsub(/(?:_|(\/))([a-z\d]*)/) { "#{$1}#{$2.capitalize}" }.gsub('/', '::')
         end
       end
     end
