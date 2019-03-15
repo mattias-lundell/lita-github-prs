@@ -60,7 +60,12 @@ module Lita
           repo_handler = config.repo_handlers[repo.long_name.to_sym]
 
           if repo_handler
-            repo_handler.new(repo).extra_todos
+            diff = github.diff_between(
+              repo,
+              config.master_branch,
+              config.develop_branch
+            )
+            repo_handler.new(diff: diff).extra_todos
           else
             DefaultRepoHandler.new(repo: repo, config: config).extra_todos
           end
