@@ -10,10 +10,15 @@ module Lita
           client.repository?(repo.long_name)
         end
 
-        def prs_between(repo, from, to)
+        def diff_between(repo, from, to)
           diff = client.compare(repo.long_name, from, to)
-          prs = diff.commits.map(&:commit).select { |i| i.message.start_with? 'Merge pull request' }
-          prs.map do |pr|
+          GitDiff.new(diff)
+        end
+
+        def prs_between(repo, from, to)
+          diff = diff_between(repo, from, to)
+
+          diff.pull_requests.map do |pr|
             match = pr.message.split(/^Merge pull request #(\d+)/)
             pr_id = match[1]
 

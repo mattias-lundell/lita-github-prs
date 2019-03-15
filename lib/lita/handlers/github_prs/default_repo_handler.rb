@@ -2,7 +2,6 @@ require 'json'
 require 'octokit'
 
 require 'lita/handlers/github_prs/github.rb'
-require 'lita/handlers/github_prs/dynamic_todo_list.rb'
 
 module Lita
   module Handlers

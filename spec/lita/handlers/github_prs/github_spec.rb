@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 module Lita
@@ -43,6 +45,21 @@ module Lita
             before { allow(client_double).to receive(:user).with(login).and_raise(Octokit::NotFound) }
 
             it { should eq(nil) }
+          end
+        end
+
+        describe '#diff_between' do
+          it 'returns the diff data between two git anchors' do
+            repo = double(long_name: 'organization/repository')
+            from = 'master'
+            to = 'feature_branch'
+            allow(client_double).to receive(:compare)
+
+            result = github.diff_between(repo, from, to)
+
+            expect(client_double).to have_received(:compare)
+              .with('organization/repository', from, to)
+            expect(result).to be_an(Lita::Handlers::GithubPrs::GitDiff)
           end
         end
 
