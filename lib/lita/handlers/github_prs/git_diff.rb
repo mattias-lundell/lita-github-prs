@@ -26,7 +26,7 @@ module Lita
           @diff
             .commits
             .map(&:commit)
-            .select { |commit| pull_request_commit?(commit) }
+            .select(&method(:pull_request_commit?))
         end
 
         private
