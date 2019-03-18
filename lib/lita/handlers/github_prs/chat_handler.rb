@@ -2,6 +2,7 @@ require 'json'
 require 'octokit'
 
 require 'lita/handlers/github_prs/github.rb'
+require 'lita/handlers/github_prs/default_repo_handler.rb'
 
 module Lita
   module Handlers
@@ -42,7 +43,12 @@ module Lita
             result[pr] = todos unless todos.empty?
           end
 
-          pretext = render_template('go-live-pr', prs: prs, todos_by_pr: todos_by_pr, extra: additional_todos(repo))
+          pretext = render_template(
+            'go-live-pr',
+            prs: prs,
+            todos_by_pr: todos_by_pr,
+            extra: additional_todos(repo)
+          )
 
           slack.send_attachments(
             receiver,
@@ -51,8 +57,18 @@ module Lita
         end
 
         def additional_todos(repo)
-          path = "#{config.extra_templates}/#{repo.short_name}"
-          return File.read(path) if File.exist?(path)
+          repo_handler = config.repo_handlers[repo.long_name.to_sym]
+
+          if repo_handler
+            diff = github.diff_between(
+              repo,
+              config.master_branch,
+              config.develop_branch
+            )
+            repo_handler.new(diff: diff).extra_todos
+          else
+            DefaultRepoHandler.new(repo: repo, config: config).extra_todos
+          end
         end
 
         def parse_todos(pr)

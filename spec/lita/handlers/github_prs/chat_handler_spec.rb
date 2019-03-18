@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'webmock/rspec'
 require 'vcr'
@@ -53,7 +55,6 @@ describe Lita::Handlers::GithubPrs::ChatHandler, lita_handler: true, additional_
       it { should eq ['- [ ] add env vars!'] }
     end
 
-
     let_context body: "## TODO:\n * [ ] add env vars!" do
       it { should eq ['- [ ] add env vars!'] }
     end
@@ -73,5 +74,31 @@ describe Lita::Handlers::GithubPrs::ChatHandler, lita_handler: true, additional_
     let_context(body: '') { it { should eq [] } }
     let_context(body: "  \n \t  foo bar \n \n baz \t ") { it { should eq [] } }
     let_context(body: nil) { it { should eq [] } }
+  end
+
+  describe '#additional_todos' do
+    it 'generates a list of todos in markdown via a repo handler' do
+      stub_const('Organization::ShortName', Class.new do
+        def initialize(diff:); end
+
+        def extra_todos
+          'this is markdown'
+        end
+      end)
+      chat_handler = Lita::Handlers::GithubPrs::ChatHandler.new(robot)
+      allow(chat_handler.config).to receive(:repo_handlers)
+        .and_return("organization/short-name": Organization::ShortName)
+      allow(chat_handler.github).to receive(:diff_between)
+        .and_return(Lita::Handlers::GithubPrs::GitDiff.new(nil))
+      repo = Lita::Handlers::GithubPrs::GitRepository.new(
+        'organization',
+        'short-name'
+      )
+
+      additional_todos = chat_handler.additional_todos(repo)
+
+      expect(additional_todos).to eq('this is markdown')
+    end
+
   end
 end
