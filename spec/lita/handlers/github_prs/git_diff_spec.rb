@@ -13,6 +13,17 @@ RSpec.describe Lita::Handlers::GithubPrs::GitDiff do
 
       expect(git_diff.modified_files).to eq(['modified_file.rb'])
     end
+
+    it 'returns an empty list when there are no modified files' do
+      files = [
+        build_file('added_file.rb', status: 'added'),
+        build_file('deleted_file.rb', status: 'deleted')
+      ]
+      diff = build_diff(files: files)
+      git_diff = Lita::Handlers::GithubPrs::GitDiff.new(diff)
+
+      expect(git_diff.modified_files).to eq([])
+    end
   end
 
   describe '#added_files' do
@@ -26,6 +37,17 @@ RSpec.describe Lita::Handlers::GithubPrs::GitDiff do
       git_diff = Lita::Handlers::GithubPrs::GitDiff.new(diff)
 
       expect(git_diff.added_files).to eq(['added_file.rb'])
+    end
+
+    it 'returns an empty list when there are no added files' do
+      files = [
+        build_file('added_file.rb', status: 'added'),
+        build_file('deleted_file.rb', status: 'deleted')
+      ]
+      diff = build_diff(files: files)
+      git_diff = Lita::Handlers::GithubPrs::GitDiff.new(diff)
+
+      expect(git_diff.modified_files).to eq([])
     end
   end
 
@@ -41,6 +63,17 @@ RSpec.describe Lita::Handlers::GithubPrs::GitDiff do
       git_diff = Lita::Handlers::GithubPrs::GitDiff.new(diff)
 
       expect(git_diff.pull_requests).to eq([merge_commit.commit])
+    end
+
+    it 'returns an empty list when there are no merge commits' do
+      files = [
+        build_commit('Fiddle with fiddlesticks'),
+        build_commit('Fix world hunger')
+      ]
+      diff = build_diff(files: files)
+      git_diff = Lita::Handlers::GithubPrs::GitDiff.new(diff)
+
+      expect(git_diff.pull_requests).to eq([])
     end
   end
 
