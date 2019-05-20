@@ -32,7 +32,15 @@ module Lita
         private
 
         def pull_request_commit?(commit)
+          merge_commit?(commit) || squash_merge_commit?(commit)
+        end
+
+        def merge_commit?(commit)
           commit.message.start_with?('Merge pull request')
+        end
+
+        def squash_merge_commit?(commit)
+          commit.message.match(%r{\(#\d+\)$})
         end
       end
     end

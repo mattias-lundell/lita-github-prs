@@ -65,6 +65,19 @@ RSpec.describe Lita::Handlers::GithubPrs::GitDiff do
       expect(git_diff.pull_requests).to eq([merge_commit.commit])
     end
 
+    it 'returns all squash merge commits from pull requests' do
+      squash_merge_commit = build_commit('Sqush merge from pr (#192)')
+      commits = [
+        build_commit('Fiddle with fiddlesticks'),
+        squash_merge_commit,
+        build_commit('Fix world hunger')
+      ]
+      diff = build_diff(commits: commits)
+      git_diff = Lita::Handlers::GithubPrs::GitDiff.new(diff)
+
+      expect(git_diff.pull_requests).to eq([squash_merge_commit.commit])
+    end
+
     it 'returns an empty list when there are no merge commits' do
       files = [
         build_commit('Fiddle with fiddlesticks'),
