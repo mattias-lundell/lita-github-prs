@@ -20,7 +20,12 @@ module Lita
 
           diff.pull_requests.map do |pr|
             match = pr.message.split(/^Merge pull request #(\d+)/)
-            pr_id = match[1]
+            pr_id = if match
+                      match[1]
+                    else
+                      match = pr.message.split(/\(#(\d+)\)$/)
+                      match[1]
+                    end
 
             client.pull_request(repo.long_name, pr_id)
           end
