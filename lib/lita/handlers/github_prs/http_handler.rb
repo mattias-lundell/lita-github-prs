@@ -73,6 +73,8 @@ module Lita
             user.type == 'User' if user
           end - ['here']
 
+          log.info "requesting reviews from #{mentions.join(', ')}"
+
           client.request_pull_request_review(repository, res.number, reviewers: mentions) unless mentions.empty?
 
           res.html_url
