@@ -41,6 +41,12 @@ module Lita
           end
 
           reply url, path, payload
+        rescue => exception
+          payload = {
+            response_type: 'ephemeral',
+            delete_original: true,
+            text: "Error occurred: #{exception.name}: #{exception.message}"
+          }
         end
 
         def create_pr?(body)
