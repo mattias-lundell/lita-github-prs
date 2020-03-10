@@ -45,7 +45,7 @@ module Lita
           payload = {
             response_type: 'ephemeral',
             delete_original: true,
-            text: "Error occurred: #{exception.name}: #{exception.message}"
+            text: "Error occurred: #{exception.class}: #{exception.message}"
           }
         end
 
