@@ -78,7 +78,7 @@ module Lita
             user = github.user(login)
 
             user.type == 'User' if user
-          end - ['here']
+          end - ['here', 'dependabot-preview', 'dependabot']
 
           log.info "requesting reviews from #{mentions.join(', ')}"
 
