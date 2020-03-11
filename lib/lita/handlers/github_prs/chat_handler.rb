@@ -20,6 +20,7 @@ module Lita
         )
 
         def go_live_handler(response)
+          log.info "got request #{response.inspect}"
           log.info "got request #{response.args}"
           repo = GitRepository.new(config.organization, response.args[0])
 
