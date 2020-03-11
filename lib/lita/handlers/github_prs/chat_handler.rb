@@ -21,15 +21,13 @@ module Lita
 
         def go_live_handler(response)
           log.info "got request #{response.args}"
-          log.info "room id: #{response.room.id.inspect}"
-          log.info "room name: #{response.room.name.inspect}"
-          log.info "room metadata: #{response.room.metadata.inspect}"
-          repo = GitRepository.new(config.organization, response.args[0])
+          repo_arg = response.args[0]
+          repo = GitRepository.new(config.organization, repo_arg)
 
           if github.repository?(repo)
             go_live response.room, repo
           else
-            msg = "Invalid repository #{repo.long_name}"
+            msg = "Invalid repository #{repo_arg}"
             log.info msg
             response.reply(msg)
           end
@@ -46,16 +44,24 @@ module Lita
             result[pr] = todos unless todos.empty?
           end
 
-          pretext = render_template(
+          text = render_template(
             'go-live-pr',
             prs: prs,
             todos_by_pr: todos_by_pr,
-            extra: additional_todos(repo)
+            extra: additional_todos(repo),
           )
 
+          pr_url = create_pr repo.long_name, text
+
+          title = "Go Live created: #{pr_url}"
+
+        rescue => exception
+          title = "Exception occurred"
+          text = "#{exception.class}\n\n#{exception.message}"
+        ensure
           slack.send_attachments(
             receiver,
-            construct_attachments(pretext, repo.long_name)
+            construct_attachments(title, text, repo.long_name)
           )
         end
 
@@ -80,6 +86,48 @@ module Lita
           todos.reject(&:empty?).map { |row| row.gsub(regex, '- [ ]') }
         end
 
+        def reply(url, path, payload)
+          conn = Faraday.new(url: url)
+          conn.post do |req|
+            req.url path
+            req.headers['Content-Type'] = 'application/json'
+            req.body = payload.to_json
+          end
+        end
+
+        def create_pr(repository, text)
+          text = text.gsub(/```/, '')
+          res = octokit_client.create_pull_request(
+            repository,
+            config.master_branch,
+            config.develop_branch,
+            'Go Live',
+            text
+          )
+
+          mentions = Github.mentions(text).select do |login|
+            user = github.user(login)
+
+            user.type == 'User' if user
+          end - ['here', 'dependabot-preview', 'dependabot']
+
+          log.info "requesting reviews from #{mentions.join(', ')}"
+
+          octokit_client.request_pull_request_review(repository, res.number, reviewers: mentions) unless mentions.empty?
+
+          res.html_url
+        end
+
+        def github
+          @github ||= Github.new(config.github_token)
+        end
+
+        def octokit_client
+          @octokit_client ||= Octokit::Client.new(
+            access_token: config.github_token,
+            auto_paginate: true
+          )
+        end
         def slack
           @slack ||= robot.chat_service
         end
@@ -88,28 +136,14 @@ module Lita
           @github ||= Github.new(config.github_token)
         end
 
-        def construct_attachments(pretext, repository)
-          title = "Create go live pull request for #{repository}?"
+        def construct_attachments(title, pretext, repository)
           [
             {
               pretext: pretext,
               fallback: title,
               title: title,
               callback_id: repository,
-              actions: [
-                {
-                  name: 'yes',
-                  text: 'Yes',
-                  type: 'button',
-                  value: 'yes'
-                },
-                {
-                  name: 'no',
-                  text: 'No',
-                  type: 'button',
-                  value: 'no'
-                }
-              ],
+              actions: [],
               mrkdwn_in: %w(text pretext)
             }
           ]

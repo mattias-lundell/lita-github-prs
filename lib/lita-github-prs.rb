@@ -5,7 +5,6 @@ Lita.load_locales Dir[File.expand_path(
 )]
 
 require "lita/handlers/github_prs/chat_handler"
-require "lita/handlers/github_prs/http_handler"
 require "lita/handlers/github_prs/config"
 require "lita/handlers/github_prs/git_repository"
 require "lita/handlers/github_prs/git_diff"
