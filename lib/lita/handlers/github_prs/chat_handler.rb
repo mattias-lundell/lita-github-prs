@@ -20,8 +20,10 @@ module Lita
         )
 
         def go_live_handler(response)
-          log.info "got request #{response.inspect}"
           log.info "got request #{response.args}"
+          log.info "room id: #{response.room.id.inspect}"
+          log.info "room name: #{response.room.name.inspect}"
+          log.info "room metadata: #{response.room.metadata.inspect}"
           repo = GitRepository.new(config.organization, response.args[0])
 
           if github.repository?(repo)
