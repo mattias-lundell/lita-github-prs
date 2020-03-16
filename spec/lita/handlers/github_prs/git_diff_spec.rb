@@ -11,7 +11,7 @@ RSpec.describe Lita::Handlers::GithubPrs::GitDiff do
       diff = build_diff(files: files)
       git_diff = Lita::Handlers::GithubPrs::GitDiff.new(diff)
 
-      expect(git_diff.modified_files).to eq(['modified_file.rb'])
+      expect(git_diff.modified_files.map(&:filename)).to eq(['modified_file.rb'])
     end
 
     it 'returns an empty list when there are no modified files' do
@@ -36,7 +36,7 @@ RSpec.describe Lita::Handlers::GithubPrs::GitDiff do
       diff = build_diff(files: files)
       git_diff = Lita::Handlers::GithubPrs::GitDiff.new(diff)
 
-      expect(git_diff.added_files).to eq(['added_file.rb'])
+      expect(git_diff.added_files.map(&:filename)).to eq(['added_file.rb'])
     end
 
     it 'returns an empty list when there are no added files' do

@@ -12,14 +12,12 @@ module Lita
           @diff
             .files
             .select { |file| file.status == 'modified' }
-            .map(&:filename)
         end
 
         def added_files
           @diff
             .files
             .select { |file| file.status == 'added' }
-            .map(&:filename)
         end
 
         def pull_requests
