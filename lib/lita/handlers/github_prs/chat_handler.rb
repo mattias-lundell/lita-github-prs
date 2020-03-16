@@ -57,7 +57,7 @@ module Lita
 
         rescue => exception
           title = "Exception occurred"
-          text = "#{exception.class}\n\n#{exception.message}"
+          text = "#{exception.class}\n\n#{exception.message}\n\n#{exception.backtrace.join("\n")}"
         ensure
           slack.send_attachments(
             receiver,
