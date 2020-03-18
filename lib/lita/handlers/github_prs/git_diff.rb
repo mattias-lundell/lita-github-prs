@@ -24,8 +24,17 @@ module Lita
         attr_reader :hunks
 
         HEADER_REGEX = /@@ \-\d+,\d+ \+\d+,\d+ @@ .+/
-        def initialize
+        def initialize(patch_string)
           @hunks = []
+          patch_string.lines.each do |line|
+            if line.match(HEADER_REGEX)
+              @hunks.push(Hunk.new)
+            end
+
+            @hunks.last.add_line(line)
+          end
+
+          @hunks
         end
 
         class Hunk
