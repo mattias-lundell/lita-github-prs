@@ -34,7 +34,7 @@ VCR.configure do |config|
 end
 
 Lita.configure do |config|
-  config.handlers.github_prs.organization = 'mattias-lundell'
+  config.handlers.github_prs.organization = 'cheerfulstoic'
   config.handlers.github_prs.master_branch = 'master'
   config.handlers.github_prs.develop_branch = 'develop'
   config.handlers.github_prs.github_token = ENV['GITHUB_TOKEN'] || 'FAKEGITHUBTOKEN'

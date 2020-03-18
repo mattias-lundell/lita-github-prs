@@ -3,6 +3,66 @@
 module Lita
   module Handlers
     module GithubPrs
+      class FileResource
+        extend Forwardable
+
+        def initialize(diff_file)
+          @diff_file = diff_file
+        end
+
+        def_delegators :@diff_file, :sha, :filename, :status, :additions, :deletions, :changes, :blob_url, :raw_url, :contents_url, :patch
+
+        def patch
+          Patch.new(@diff_file.patch)
+        end
+      end
+
+
+      class Patch
+        attr_reader :hunks
+t
+        HEADER_REGEX = /@@ \-\d+,\d+ \+\d+,\d+ @@ .+/
+        def initialize
+          @hunks = []
+        end
+
+        class Hunk
+          def initialize
+            @lines = []
+          end
+
+          def add_line(line)
+            @lines.push(line)
+          end
+
+          def self.from_string(hunk_string)
+            new.tap do |hunk|
+              hunk_string.lines.each do |line|
+                hunk.add_line(line)
+              end
+            end
+          end
+
+          ADDITION_OR_SUBTRACTION = %w[+ -]
+          def highlight_matches(&block)
+            found_indexes = @lines.each_with_index.map do |line, index|
+              is_change = ADDITION_OR_SUBTRACTION.include?(line[0])
+              is_change && block.call(line) ? index : nil
+            end.compact
+
+            return if found_indexes.empty?
+
+            @lines.each_with_index.map do |line, index|
+              if line.strip.empty?
+                line
+              else
+                (found_indexes.include?(index) ? '->  ' : '    ') + line
+              end
+            end.join
+          end
+        end
+      end
+
       class GitDiff
         def initialize(diff)
           @diff = diff
@@ -12,12 +72,14 @@ module Lita
           @diff
             .files
             .select { |file| file.status == 'modified' }
+            .map { |file| FileResource.new(file) }
         end
 
         def added_files
           @diff
             .files
             .select { |file| file.status == 'added' }
+            .map { |file| FileResource.new(file) }
         end
 
         def pull_requests
