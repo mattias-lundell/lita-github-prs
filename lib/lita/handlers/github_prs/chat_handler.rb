@@ -111,9 +111,25 @@ module Lita
             user.type == 'User' if user
           end - ['here', 'dependabot-preview', 'dependabot']
 
+          mentions.uniq!
+
           log.info "requesting reviews from #{mentions.join(', ')}"
 
-          octokit_client.request_pull_request_review(repository, res.number, reviewers: mentions) unless mentions.empty?
+          mentions.each do |mention|
+            begin
+              octokit_client.request_pull_request_review(repository, res.number, reviewers: [mention]) unless mentions.empty?
+            rescue Octokit::UnprocessableEntity
+              # Ignore if we couldn't request a review from an account
+              # As an example:
+              # https://github.com/fishbrain/ornatus-administration/pull/1078
+              #
+              # ^^^ That PR contains the line:
+              #     #1076 - Bump @storybook/addon-storyshots from 5.2.6 to 5.3.17 (@klaseskilson merged)
+              #
+              # We want @klaseskilson to be requested, but not @storybook (because while it's @something, it's not part of the Go Lives PRs)
+              nil
+            end
+          end
 
           res.html_url
         end
