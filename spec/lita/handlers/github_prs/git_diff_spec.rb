@@ -170,24 +170,24 @@ module Lita
             it do
               is_expected.to eq(
                <<~RESULT
-                     @@ -78,15 +78,17 @@ namespace :migrate do
+                 @@ -78,15 +78,17 @@ namespace :migrate do
 
                           desc 'Add a new promotion'
                           task add_promotion: :environment do
-                 ->  -      slug     = ENV['SLUG']
-                     -      duration = ENV['DURATION']
-                 ->  +      slug                   = ENV['SLUG']
-                     +      duration               = ENV['DURATION']
-                     +      start_time_days_offset = ENV['START_TIME_DAYS_OFFSET']
+                 - ->       slug     = ENV['SLUG']
+                 -          duration = ENV['DURATION']
+                 + ->       slug                   = ENV['SLUG']
+                 +          duration               = ENV['DURATION']
+                 +          start_time_days_offset = ENV['START_TIME_DAYS_OFFSET']
 
                             abort 'Missing required param: slug' if slug.blank?
                             abort 'Missing required param: duration' if duration.blank?
 
                             Premium::Promotion.create!(
                               slug: slug,
-                     -        duration: duration
-                     +        duration: duration,
-                     +        start_time_days_offset: start_time_days_offset
+                 -            duration: duration
+                 +            duration: duration,
+                 +            start_time_days_offset: start_time_days_offset
                             )
                           end
                         end
@@ -204,24 +204,24 @@ module Lita
             it do
               is_expected.to eq(
                <<~RESULT
-                     @@ -78,15 +78,17 @@ namespace :migrate do
+                 @@ -78,15 +78,17 @@ namespace :migrate do
 
                           desc 'Add a new promotion'
                           task add_promotion: :environment do
-                 ->  -      slug     = ENV['SLUG']
-                 ->  -      duration = ENV['DURATION']
-                 ->  +      slug                   = ENV['SLUG']
-                 ->  +      duration               = ENV['DURATION']
-                 ->  +      start_time_days_offset = ENV['START_TIME_DAYS_OFFSET']
+                 - ->       slug     = ENV['SLUG']
+                 - ->       duration = ENV['DURATION']
+                 + ->       slug                   = ENV['SLUG']
+                 + ->       duration               = ENV['DURATION']
+                 + ->       start_time_days_offset = ENV['START_TIME_DAYS_OFFSET']
 
                             abort 'Missing required param: slug' if slug.blank?
                             abort 'Missing required param: duration' if duration.blank?
 
                             Premium::Promotion.create!(
                               slug: slug,
-                     -        duration: duration
-                     +        duration: duration,
-                     +        start_time_days_offset: start_time_days_offset
+                 -            duration: duration
+                 +            duration: duration,
+                 +            start_time_days_offset: start_time_days_offset
                             )
                           end
                         end

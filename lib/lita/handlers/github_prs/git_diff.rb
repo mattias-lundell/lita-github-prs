@@ -64,10 +64,10 @@ module Lita
             return if found_indexes.empty?
 
             @lines.each_with_index.map do |line, index|
-              if line.strip.empty?
+              if line.strip.empty? || line.match(/\A@@ -\d/)
                 line
               else
-                (found_indexes.include?(index) ? '->  ' : '    ') + line
+                line[0] + (found_indexes.include?(index) ? ' -> ' : '    ') + line[1..-1]
               end
             end.join
           end
