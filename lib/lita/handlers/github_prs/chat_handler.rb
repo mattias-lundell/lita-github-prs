@@ -96,7 +96,6 @@ module Lita
         end
 
         def create_pr(repository, text)
-          text = text.gsub(/```/, '')
           res = octokit_client.create_pull_request(
             repository,
             config.master_branch,
