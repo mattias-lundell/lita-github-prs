@@ -48,7 +48,7 @@ module Lita
             'go-live-pr',
             prs: prs,
             todos_by_pr: [],
-            extra: [],
+            extra: nil,
           )
           github_text = render_template(
             'go-live-pr',
