@@ -44,14 +44,20 @@ module Lita
             result[pr] = todos unless todos.empty?
           end
 
-          text = render_template(
+          slack_text = render_template(
+            'go-live-pr',
+            prs: prs,
+            todos_by_pr: [],
+            extra: [],
+          )
+          github_text = render_template(
             'go-live-pr',
             prs: prs,
             todos_by_pr: todos_by_pr,
             extra: additional_todos(repo),
           )
 
-          pr_url = create_pr repo.long_name, text
+          pr_url = create_pr repo.long_name, github_text
 
           title = "Go Live created: #{pr_url}"
 
@@ -61,7 +67,7 @@ module Lita
         ensure
           slack.send_attachments(
             receiver,
-            construct_attachments(title, text, repo.long_name)
+            construct_attachments(title, slack_text, repo.long_name)
           )
         end
 
