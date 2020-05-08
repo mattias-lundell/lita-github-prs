@@ -26,7 +26,7 @@ module Lita
         HEADER_REGEX = /@@ \-\d+,\d+ \+\d+,\d+ @@.*/
         def initialize(patch_string)
           @hunks = []
-          patch_string.lines.each do |line|
+          patch_string.to_s.lines.each do |line|
             if line.match(HEADER_REGEX)
               @hunks.push(Hunk.new)
             end
